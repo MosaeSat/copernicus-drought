@@ -3,7 +3,7 @@ name: Drought Data Pipeline
 # Trigger the workflow every day at midnight (cron job)
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 24 9 *'
 
 jobs:
   fetch_and_upload_data:
@@ -32,7 +32,7 @@ jobs:
       # Step 5: Commit and push changes to the GitHub repository
       - name: Commit and push changes
         run: |
-          git config --local user.email "your-email@example.com"
+          git config --local user.email "fhcampbell@mosaezorg.com"
           git config --local user.name "GitHub Actions Bot"
           git add .
           git commit -m "Automated data upload"
