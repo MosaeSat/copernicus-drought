@@ -22,8 +22,8 @@ response = requests.get(wms_base_url, params=params)
 
 # Save the image if the request is successful
 if response.status_code == 200:
-    with open('drought_map.png', 'wb') as f:
-        f.write(response.content)
+with open('./images/drought_map.png', 'wb') as f:
+    f.write(response.content)
     print("Map image saved successfully!")
 else:
     print(f"Error: {response.status_code}")
