@@ -10,11 +10,11 @@ jobs:
     steps:
       # Step 1: Checkout the repository to access files
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated from v2 to v3
 
       # Step 2: Set up Python environment
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4  # Updated from v2 to v4
         with:
           python-version: '3.x'
 
@@ -28,7 +28,7 @@ jobs:
       - name: Run data download script
         run: python push-script.py
 
-      # Step 5: Set up Git with GITHUB_TOKEN for authentication
+      # Step 5: Set up Git for pushing changes with GITHUB_TOKEN
       - name: Set up Git for pushing
         run: |
           git config --global user.email "github-actions@github.com"
@@ -41,3 +41,7 @@ jobs:
           git add .
           git commit -m "Automated data upload"
           git push origin HEAD:main
+      # Step 4: Run your Python script and capture logs
+      - name: Run data download script with debug
+        run: |
+          python push-script.py || echo "Python script failed" && exit 1
