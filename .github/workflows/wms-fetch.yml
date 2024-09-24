@@ -1,0 +1,43 @@
+name: Fetch Drought Map via WMS
+
+on:
+  # Schedule to run daily at midnight (you can adjust the time)
+  schedule:
+    - cron: '0 0 * * *'  # Every day at midnight UTC
+  
+  # Also allow manual triggering of the workflow
+  workflow_dispatch:
+
+jobs:
+  fetch_wms_map:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository to access files
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # Step 3: Install required Python packages (requests)
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # Step 4: Run the WMS fetch script to download the drought map
+      - name: Fetch WMS Drought Map
+        run: python wms-fetch.py
+
+      # Step 5: Commit and push the downloaded image
+      - name: Commit and push map image
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Actions Bot"
+          git add drought_map.png
+          git commit -m "Automated upload of drought map"
+          git push origin HEAD:main
